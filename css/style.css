@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to bottom, #F9D199, #FFF0DA);
+
+    color: #4a2d23;
+    text-align: center;
+}
+
+header {
+    padding: 2rem 1rem;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #4a2d23;
+    background: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    transition: background 0.3s;
+    font-family: "Montserrat";
+}
+
+nav a:hover {
+    background: #FFF0DA;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 100px;
+    color: #5c392d;
+}
+
+h2 {
+    margin-top: 10px;
+    font-family: 'Fredoka';
+}
+
+.logo {
+    max-width: 300px;
+    width: 100%;
+    max-height: 300px;
+    width: 100%;
+}
+
+.cta-button {
+    margin-top: 1.5rem;
+    background-color: #ff5c8a;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #e04c78;
+}
+
+
+
+/*Cartas*/
+.card {
+    max-width: 325px;
+    width: 100%;
+    background-color: #FFF8EF;
+    border: none;
+    border-radius: 50px;
+    margin: 20px;
+
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #4A2D23;
+}
+
+.btn {
+    background-color: #C46F52;
+    color: white;
+    font-family: 'Fredoka', sans-serif;
+}
+.btn:hover{
+    border: solid 1px;
+    border-color: #4a2d23;
+}
+
+footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: #9e6c5b;
+}
+
+.card-title {
+    color: #4A2D23;
+}
+
+.card-img-top {
+    border-radius: 50px;
+    max-height: 250px;
+    height: 100%;
+}
+
+.container-cards {
+    background-color: #FFF0DA;
+    max-width: 100%;
+    max-height: 100%;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.cards {
+    display: flex;
+}
+
+.titulo-menu {
+    font-family: 'Pacifico';
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-left {
+    top: 10%;
+    left: 15%;
+}
+
+.top-right {
+    top: 5%;
+    right: 15%;
+}
+
+.bottom-left {
+    bottom: 40%;
+    left: 10%;
+}
+
+.bottom-right {
+    bottom: 40%;
+    right: 5%;
+}
+
+.decor {
+    position: absolute;
+    width: 250px;
+}
+
+.overflow {
+    overflow-x: scroll;
+}
+.btn-editar{
+    background-color: rgb(175, 218, 255);
+    color: black;
+}
+.btn-eliminar{
+    background-color: #ff578a;
+    color: #FFF0DA;
+}
+.btn-editar:hover{
+    border: solid 1px;
+    border-color: rgb(98, 157, 209);
+}
+.btn-eliminar:hover{
+    border: solid 1px;
+    border-color: #ff578a   ;
+
+}
+.add-button{
+    bottom: 30px; /* Separacion del boton con el borde inferior*/
+    right: 25px; /*Separación desde la derecha*/
+    border-radius: 50%;
+    background-color: #fde3ab; /*Color de fondo*/
+    border: none;
+    /*Esto hace que el boton sea flotante*/
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center; /*Alinación horizontal*/
+    align-items: center; /*Alinación vertical*/
+    box-shadow: 0px 4px 10px rgb(0,0,0,0.5);/*Sombreado*/
+    z-index: 1001;
+    transition: transform 0.4s;
+}
+.add-button:hover{
+    transform: scale(1.1);
+}
+/* Estilo de fondo y bordes personalizados */
+#tablaProductos {
+  background-color: #FFF0DA;
+  border: 2px solid #99847d;
+  border-radius: 20px;
+}
+
+#tablaProductos th,
+#tablaProductos td {
+  border: 1px solid #4A2D23 !important;
+  vertical-align: middle;
+  background-color: #FFF0DA;
+  font-size: 18px;
+}
+
+#tablaProductos th {
+  background-color: #f5d9b0;
+  color: #4A2D23;
+  font-weight: bold;
+   font-size: 20px;
+   font-weight: bold;
+}

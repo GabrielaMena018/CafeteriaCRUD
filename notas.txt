@@ -1,0 +1,22 @@
+https://retoolapi.dev/QWJAau/productos
+See all available endpoints here (generated with json-server).
+Endpoint URL
+
+HTTP method endpoints
+
+GET
+/QWJAau/productos
+GET filter
+/QWJAau/productos?nombre=value
+GET by id
+/QWJAau/productos/1
+GET paginate
+/QWJAau/productos?_page=2&_limit=10
+POST
+/QWJAau/productos
+PUT
+/QWJAau/productos/1
+PATCH
+/QWJAau/productos/1
+DELETE
+/QWJAau/productos/1

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SweetCharm</title>
+    <!--Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!--Fuentes-->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <!--Estilo css-->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Menu</a>
+            <a href="#">Contactanos</a>
+            <a href="administrar.html">Administrador</a>
+        </nav>
+        <h1 class=" mt-5">SweetCharm</h1>
+        <img src="img/gatito.png" alt="gatito en taza logo de SweetCharm" class="logo ">
+        <h2>¡Déjate conquistar por la dulzura irresistible de nuestro menú! </h2>
+        <!-- DECORACIONES -->
+        <img src="img/figuraCafe.png" class="decor top-left" alt="decor cafe" />
+        <img src="img/figuraGatito.png" class="decor top-right" alt="decor pastel" />
+        <img src="img/figuraMochi.png" class="decor bottom-left" alt="decor cat1" />
+        <img src="img/figuraPastel.png" class="decor bottom-right" alt="decor cat2" />
+
+    </header>
+
+    <div class="container-cards mb-3">
+        <h2 class="titulo-menu">Menú de postres</h2>
+        <!-- Carrusel de postres -->
+        <div id="carruselPasteles" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carouselInnerPostres"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carruselPasteles" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carruselPasteles" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+
+
+
+        <h2 class="titulo-menu mt-5 mb-3">Menú de bebidas</h2>
+        <!-- Carrusel de bebidas -->
+        <div id="carruselBebidas" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carouselInnerBebidas"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carruselBebidas" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carruselBebidas" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <footer>
+        &copy; 2025 SweetCharm. All rights reserved.
+    </footer>
+    <!-- Supabase CDN: debe ir antes de tu JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="js/clientes.js"></script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-const API_URL = "https://retoolapi.dev/QWJAau/productos";
+const API_URL = "https://6859bd389f6ef961115417bf.mockapi.io/productos/productos";
 
 // Obtener los datos de la API
 async function ObtenerProductos() {
@@ -7,11 +7,8 @@ async function ObtenerProductos() {
     CrearTablaProductos(data); // nombre corregido (ver nota abajo)
 }
 
-//Credencuales ara guardar la imagen
-const supabaseClient = supabase.createClient(
-    'https://kidqmjghdrtbergdubkp.supabase.co', // project URL
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpZHFtamdoZHJ0YmVyZ2R1YmtwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4MTQyMDUsImV4cCI6MjA2NTM5MDIwNX0.e20sTa_-qYEqUpjpImdepHXhUh0Sh40aTcHnQoSd3-o' // public API key
-);
+//Credencuales para guardar la imagen
+const supabaseClient = 'https://api.imgbb.com/1/upload?key=b6dd0a617dee3698d775783b9230ee1a'
 
 //Crear tabla de productos
 function CrearTablaProductos(datos) {
@@ -65,40 +62,6 @@ function CrearTablaProductos(datos) {
 }
 
 
-/*function CrearTarjeta(datos) {
-
-
-    const contenedorPostres = document.getElementById("tarjetasPostre");
-    const contenedorBebida = document.getElementById("tarjetasBebida");
-    contenedorBebida.innerHTML = ""; // limpia el contenedor
-    contenedorPostres.innerHTML = "";
-
-    datos.forEach(productos => {
-        const tarjeta = `
-      <div class="col-md-3">
-        <div class="card shadow p-3">
-          <img src="${productos.imagen}" class="card-img-top" alt="${productos.nombre}">
-          <div class="card-body text-start">
-            <h5 class="card-title fw-bold">${productos.nombre}</h5>
-            <p class="card-text">${productos.descripcion}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="fw-bold" style="color: #4d2f24;">$${productos.precio}</span>
-            </div>
-            <div class="Controles px-5 mt-4">
-              <button class="btn btn-editar rounded-pill mr-2" onclick="editarProducto('${productos.id}')">Editar</button>
-              <button class="btn btn-eliminar rounded-pill" onclick="eliminarProducto('${productos.id}')">Eliminar</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-
-        if (productos.categoria == 1) {
-            contenedorPostres.innerHTML += tarjeta;
-        } else if (productos.categoria == 2) {
-            contenedorBebida.innerHTML += tarjeta;
-        }
-    });
-};*/
 
 
 //Abrir modal
@@ -110,6 +73,16 @@ btnAgregar.addEventListener("click", () => {
     modalInstance.show();
 });
 
+
+async function subirImagen(file) {
+  const fd = new FormData();
+  fd.append('image', file);
+  const res = await fetch(supabaseClient, { method: 'POST', body: fd });
+  const obj = await res.json();
+  return obj.data.url;
+}
+
+
 //Agrgear producto
 document.getElementById("productoForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -119,32 +92,9 @@ document.getElementById("productoForm").addEventListener("submit", async functio
     const precio = (document.getElementById("precio").value);
     const categoria = document.getElementById("categoria").value;
     const imagenFile = document.getElementById("imagenInput").files[0];
-
-    if (!imagenFile) {
-        alert("Selecciona una imagen");
-    }
-
-    const nombreUnico = `${Date.now()}-${imagenFile.name}`;
-
-    const { data, error } = await supabaseClient
-        .storage
-        .from('imagenes') // nombre del bucket
-        .upload(nombreUnico, imagenFile);
-
-    if (error) {
-        console.error("Error al subir imagen:", error);
-        return;
-    }
-
-    // Obtener la URL pública
-    const { data: publicURLData } = supabaseClient
-        .storage
-        .from('imagenes')
-        .getPublicUrl(nombreUnico);
-
-    const imagenURL = publicURLData.publicUrl;
-    console.log("Imagen subida:", imagenURL);
-
+    
+    const imagenURL = await subirImagen(imagenFile);
+    
 
     const reader = new FileReader();
     reader.onloadend = async function () {
@@ -217,7 +167,7 @@ async function eliminarProducto(id) {
         const producto = await res.json();
         const imagenUrl = producto.imagen;
 
-        // 2. Extraer el nombre del archivo desde la URL
+        /*  2. Extraer el nombre del archivo desde la URL
         const partesUrl = imagenUrl.split('/');
         const nombreArchivo = partesUrl[partesUrl.length - 1]; // último segmento
 
@@ -231,7 +181,7 @@ async function eliminarProducto(id) {
             console.error("Error al eliminar imagen de Supabase:", error);
             alert("Hubo un error al eliminar la imagen.");
             return;
-        }
+        }*/
 
         const deleteRes = await fetch(`${API_URL}/${id}`, {
             method: "DELETE"
@@ -251,17 +201,17 @@ ObtenerProductos();
 
 // Suponiendo que ya insertaste el innerHTML de la tarjeta
 document.addEventListener("click", function (e) {
-  if (e.target.classList.contains("btn-editar")) {
-    const btn = e.target;
-    const id = btn.dataset.id;
-    const imagen = btn.dataset.imagen;
-    const nombre = btn.dataset.nombre;
-    const precio = btn.dataset.precio;
-    const categoria = btn.dataset.categoria;
-    const descripcion = btn.dataset.descripcion;
+    if (e.target.classList.contains("btn-editar")) {
+        const btn = e.target;
+        const id = btn.dataset.id;
+        const imagen = btn.dataset.imagen;
+        const nombre = btn.dataset.nombre;
+        const precio = btn.dataset.precio;
+        const categoria = btn.dataset.categoria;
+        const descripcion = btn.dataset.descripcion;
 
-    AbrirModalEditar(id, imagen, nombre, precio, categoria, descripcion);
-  }
+        AbrirModalEditar(id, imagen, nombre, precio, categoria, descripcion);
+    }
 });
 
 

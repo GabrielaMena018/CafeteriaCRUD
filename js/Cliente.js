@@ -24,9 +24,9 @@ function CrearCarrusel(productos, contenedorId){
     const Contenedorsize = 4;
     for(let i = 0 ; i < productos.length; i += Contenedorsize){
         const grupo = productos.slice(i, i + Contenedorsize);
-        const esActivo = i === 0 ? "Active" : "";
+        const esActivo = i === 0 ? "active" : "";
 
-        let slideHTML = `<div class = "carousel-item ${esActivo}><div class="row">`;
+        let slideHTML = `<div class = "carousel-item ${esActivo}"><div class="row">`;
 
         grupo.forEach(p => {
             slideHTML += `
@@ -44,7 +44,7 @@ function CrearCarrusel(productos, contenedorId){
               </div>
             </div>`;
         });
-        slideHTML += `<div></div>`
+        slideHTML += `</div></div>`
         contenedor.innerHTML += slideHTML;
         console.log(contenedor)
     }

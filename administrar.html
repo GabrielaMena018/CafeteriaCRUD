@@ -31,18 +31,23 @@
         <h1 class=" mt-5">SweetCharm</h1>
         <img src="img/gatito.png" alt="gatito en taza logo de SweetCharm" class="logo ">
         <!-- DECORACIONES -->
-       
-            <img src="img/figuraCafe.png" class="decor top-left" alt="decor cafe" />
-            <img src="img/figuraGatito.png" class="decor top-right" alt="decor pastel" />
-            <img src="img/figuraMochi.png" class="decor bottom-left" alt="decor cat1" />
-            <img src="img/figuraPastel.png" class="decor bottom-right" alt="decor cat2" />
 
-       
+        <img src="img/figuraCafe.png" class="decor top-left" alt="decor cafe" />
+        <img src="img/figuraGatito.png" class="decor top-right" alt="decor pastel" />
+        <img src="img/figuraMochi.png" class="decor bottom-left" alt="decor cat1" />
+        <img src="img/figuraPastel.png" class="decor bottom-right" alt="decor cat2" />
+
+
 
 
     </header>
 
-    <div class="container-cards mb-3 h-max">
+        <!-- Loader -->
+    <div id="loader" role="status">
+        <strong style="font-size: 30px;">Cargando datos...</strong>
+    </div>
+
+    <div class="container-cards mb-3 h-max" id="contenido">
         <h2 class="titulo-menu">Productos</h2>
         <div class="table-responsive mt-4">
             <table class="table table-bordered text-center align-middle" id="tablaProductos">
@@ -62,29 +67,6 @@
         </div>
 
 
-        <!--<p class="d-inline-flex gap-1">
-            <a class="btn " data-bs-toggle="collapse" href="#collapsePostres" role="button" aria-expanded="false"
-                aria-controls="collapseExample">
-                Menu de postres
-            </a>
-            <button class="btn " type="button" data-bs-toggle="collapse" href="#collapseBebidas"
-                data-bs-target="#collapseBebidas" aria-expanded="false" aria-controls="collapseBebidas">
-                Menú de bebidas
-            </button>
-        </p>
-        <div class="collapse show" id="collapsePostres">
-            <h2 class="titulo-menu mt-5 mb-3">Menú de postres</h2>
-            <div class="row col-12" id="tarjetasPostre">
-
-            </div>
-        </div>
-        <div class="collapse" id="collapseBebidas">
-            <h2 class="titulo-menu mt-5 mb-3">Menú de bebidas</h2>
-            <div class="row col-12" id="tarjetasBebida">
-                
-            </div>
-        </div>-->
-
 
     </div>
 
@@ -103,19 +85,25 @@
                         <div class="mb-3">
                             <label for="nombre" class="form-label fw-semibold">Nombre del producto</label>
                             <input type="text" class="form-control" id="nombre" placeholder="Ej. Pastel de fresas"
-                                required>
+                                required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$">
+                            <div class="invalid-feedback">
+                                El nombre solo puede contener letras y espacios.
+                            </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="descripcion" class="form-label fw-semibold">Descripción</label>
                             <textarea class="form-control" id="descripcion" rows="3"
-                                placeholder="Describe tu producto..."></textarea>
+                                placeholder="Describe tu producto..." required></textarea>
                         </div>
 
                         <div class="mb-3">
                             <label for="precio" class="form-label fw-semibold">Precio</label>
-                            <input type="number" class="form-control" id="precio" placeholder="Ej. 3.50" step="0.01"
-                                required>
+                            <input type="number" class="form-control" id="precio" placeholder="0.00" step="0.01"
+                                required min="0.01" max="9999.99" pattern="^\d+(\.\d{1,2})?$">
+                            <div class="invalid-feedback">
+                                Ingresa un precio válido (hasta dos decimales, entre 0.01 y 9999.99).
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -133,7 +121,8 @@
                         </div>
 
                         <div class="text-end">
-                            <button type="submit" class="btn  rounded-pill px-4">Guardar producto</button>
+                            <button type="submit" class="btn  rounded-pill px-4 " id="btn-insertar">Guardar
+                                producto</button>
                         </div>
                     </form>
                 </div>
@@ -155,7 +144,8 @@
 
                         <div class="mb-3">
                             <label for="nombreEditar" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombreEditar" required>
+                            <input type="text" class="form-control" id="nombreEditar" required
+                                pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"  >
                         </div>
 
                         <div class="mb-3">
@@ -165,7 +155,8 @@
 
                         <div class="mb-3">
                             <label for="precioEditar" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="precioEditar" step="0.01" required>
+                            <input type="number" class="form-control" id="precioEditar"  step="0.01"
+                                required min="0.01" max="9999.99" pattern="^\d+(\.\d{1,2})?$">
                         </div>
 
                         <div class="mb-3">
@@ -188,7 +179,7 @@
                         </div>
 
                         <div class="text-end">
-                            <button type="submit" class="btn rounded-pill">Actualizar</button>
+                            <button type="submit" class="btn rounded-pill" id="btn-actualizar">Actualizar</button>
                         </div>
                     </form>
                 </div>
@@ -212,7 +203,7 @@
 
 
     <footer>
-        &copy; 2025 SweetCharm Gabriela Mena y Diego Zelaya 
+        &copy; 2025 SweetCharm Gabriela Mena y Diego Zelaya
     </footer>
     <!-- Supabase CDN: debe ir antes de tu JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>

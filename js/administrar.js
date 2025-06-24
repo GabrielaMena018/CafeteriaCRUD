@@ -33,7 +33,7 @@ function CrearTablaProductos(datos) {
         const categoriaTexto = productos.categoria == 1 ? "Postre" : "Bebida";
 
         tabla += `
-        <tr>
+    <tr>
         <td>${productos.id}</td>
         <td>${productos.nombre}</td>
         <td>${productos.descripcion}</td>
@@ -82,25 +82,36 @@ async function subirImagen(file) {
     return obj.data.url;
 }
 
+const btnInsertar = document.getElementById("btn-insertar");
 
 //Agrgear producto
 document.getElementById("productoForm").addEventListener("submit", async function (e) {
     e.preventDefault();
+    btnInsertar.textContent = "Guardando..."; // Cambia el texto del botón
+    btnInsertar.disabled = true; // opcional, para evitar dobles clics
+
+    //console.log('Después:', btnInsertar.outerHTML);
 
     const nombre = document.getElementById("nombre").value;
     const descripcion = document.getElementById("descripcion").value;
     const precio = (document.getElementById("precio").value);
     const categoria = document.getElementById("categoria").value;
     const imagenFile = document.getElementById("imagenInput").files[0];
-
     const imagenURL = await subirImagen(imagenFile);
 
+    // Validar campos vacios
+    if (!nombre || !descripcion || !precio || !categoria || !imagenFile) {
+        alert("Por favor, completa todos los campos.");
+        btnInsertar.textContent = "Guardar"; // Restaura el texto del botón
+        btnInsertar.disabled = false; // Habilita el botón nuevamente
+        return;
+    }
 
     const reader = new FileReader();
     reader.onloadend = async function () {
 
         if (categoria == "postre") {
-            console.log("Categoria postre");
+            //console.log("Categoria postre");
             const categoriaPostre = 1;
             const res = await fetch(API_URL, {
                 method: "POST",
@@ -123,8 +134,9 @@ document.getElementById("productoForm").addEventListener("submit", async functio
             ObtenerProductos();
             const modalInstance = bootstrap.Modal.getInstance(modal);
             modalInstance.hide();
+
         } else if (categoria == "bebida") {
-            console.log("Categoria bebida");
+            //console.log("Categoria bebida");
             const categoriaBebida = 2;
             const res = await fetch(API_URL, {
                 method: "POST",
@@ -141,17 +153,17 @@ document.getElementById("productoForm").addEventListener("submit", async functio
             });
 
             const data = await res.json();
-            console.log(data);
+            //console.log(data);
+            btnInsertar.textContent = "Guardado"; // Cambia el texto del botón
             alert("Producto guardado correctamente 🎉");
-
+            btnInsertar.disabled = false;
             ObtenerProductos();
             const modalInstance = bootstrap.Modal.getInstance(modal);
             modalInstance.hide();
+
         } else {
             alert("Elija una categoria");
         }
-        // Enviar al endpoint de tu API de Retool
-
 
     };
 
@@ -162,26 +174,8 @@ document.getElementById("productoForm").addEventListener("submit", async functio
 //Eliminar productos
 async function eliminarProducto(id) {
     if (confirm("¿Está seguro de eliminar este producto?")) {
-        // 1. Obtener el producto desde Retool API
         const res = await fetch(`${API_URL}/${id}`);
         const producto = await res.json();
-        const imagenUrl = producto.imagen;
-
-        /*  2. Extraer el nombre del archivo desde la URL
-        const partesUrl = imagenUrl.split('/');
-        const nombreArchivo = partesUrl[partesUrl.length - 1]; // último segmento
-
-        // 3. Eliminar imagen de Supabase
-        const { error } = await supabaseClient
-            .storage
-            .from('imagenes') // nombre del bucket
-            .remove([nombreArchivo]);
-
-        if (error) {
-            console.error("Error al eliminar imagen de Supabase:", error);
-            alert("Hubo un error al eliminar la imagen.");
-            return;
-        }*/
 
         const deleteRes = await fetch(`${API_URL}/${id}`, {
             method: "DELETE"
@@ -215,7 +209,7 @@ document.addEventListener("click", function (e) {
 
 
 async function AbrirModalEditar(id, imagen, nombre, precio, categoria, descripcion) {
-    console.log("Valores recibidos:", { id, imagen, nombre, precio, categoria, descripcion });
+    //console.log("Valores recibidos:", { id, imagen, nombre, precio, categoria, descripcion });
     document.getElementById("idEditar").value = id;
     document.getElementById("nombreEditar").value = nombre;
     document.getElementById("precioEditar").value = precio;
@@ -235,9 +229,9 @@ async function AbrirModalEditar(id, imagen, nombre, precio, categoria, descripci
         dataTransfer.items.add(file);
         inputFile.files = dataTransfer.files;
 
-        // Si tu UI usa Bootstrap custom-file-input, actualiza la etiqueta:
         const label = document.querySelector("label[for='nuevaImagen']");
         if (label) label.textContent = filename;
+
     } catch (err) {
         console.warn("No se pudo precargar la imagen en el input:", err);
     }
@@ -247,8 +241,12 @@ async function AbrirModalEditar(id, imagen, nombre, precio, categoria, descripci
     modal.show();
 }
 
+const btnActualizar = document.getElementById("btn-actualizar");
 document.getElementById("formEditarProducto").addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    btnActualizar.textContent = "Actualizando..."; // Cambia el texto del botón
+    btnActualizar.disabled = true; // opcional, para evitar dobles clics
 
     const id = document.getElementById("idEditar").value;
     const nombre = document.getElementById("nombreEditar").value;
@@ -260,10 +258,11 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
 
 
     let imagenFinal
+
     if (nuevaImagen) {
         imagenFinal = await subirImagen(nuevaImagen)
     } else {
-        // no tocó el input file → mantiene la URL actual
+
         imagenURLfinal = document.getElementById("imagenVista").src;
     }
 
@@ -283,7 +282,9 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
     });
 
     if (res.ok) {
+        btnActualizar.textContent = "Actualizado"; // Cambia el texto del botón
         alert("Producto actualizado correctamente 🎉");
+        btnActualizar.disabled = false; // opcional, para evitar dobles clics
         const modal = bootstrap.Modal.getInstance(document.getElementById("modalEditar"));
         modal.hide();
         ObtenerProductos(); // refresca la tabla o las tarjetas
@@ -292,5 +293,12 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
     }
 });
 
-ObtenerProductos();
+window.addEventListener('DOMContentLoaded', async () => {
+    const contenido = document.getElementById("contenido");
+    contenido.hidden = true;
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    document.getElementById("loader").style.display = "none";
+    ObtenerProductos();
+    contenido.hidden = false;
+});
 

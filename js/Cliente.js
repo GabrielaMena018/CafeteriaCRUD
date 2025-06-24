@@ -30,7 +30,7 @@ function CrearCarrusel(productos, contenedorId) {
 
     grupo.forEach(p => {
       slideHTML += `
-           <div class="col-md-3 py-5">
+            <div class="col-md-3 py-5">
               <div class="card h-100 shadow p-3">
                 <img src="${p.imagen}" class="card-img-top" alt="${p.nombre}">
                 <div class="card-body text-start">
@@ -50,8 +50,16 @@ function CrearCarrusel(productos, contenedorId) {
   }
 }
 
+window.addEventListener('DOMContentLoaded', async()=>{
+    const contenido = document.getElementById("contenido");
+    contenido.hidden = true;
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    document.getElementById("loader").style.display = "none";
+    ObtenerProductos();
+    contenido.hidden = false;
+});
 
-ObtenerProductos();
+
 
 
 

@@ -39,7 +39,13 @@
 
     </header>
 
-    <div class="container-cards mb-3">
+
+    <!-- Loader -->
+    <div id="loader" role="status">
+        <strong style="font-size: 30px;">Cargando datos...</strong>
+    </div>
+
+    <div class="container-cards mb-3" id="contenido">
         <h2 class="titulo-menu">Menú de postres</h2>
         <!-- Carrusel de postres -->
         <div id="carruselPasteles" class="carousel slide" data-bs-ride="carousel">
@@ -77,7 +83,7 @@
 
 
     <footer>
-        &copy; 2025 SweetCharm. Gabriela Mena y Diego Zelaya 
+        &copy; 2025 SweetCharm. Gabriela Mena y Diego Zelaya
     </footer>
     <!-- Supabase CDN: debe ir antes de tu JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>

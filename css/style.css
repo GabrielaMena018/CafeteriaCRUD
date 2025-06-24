@@ -253,7 +253,35 @@ footer {
 
 /*Ocultra si tapan el contenido*/
 @media (max-width: 900px) {
-  .decor { display: none; }
+    .decor {
+        display: none;
+    }
 }
 
+h1 {
+    font-size: 80px;
+}
 
+#loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+#loader::after {
+    content: "";
+    width: 5rem;
+    height: 5rem;
+    border: 3px solid #ccc;
+    border-top: 3px solid #633801;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

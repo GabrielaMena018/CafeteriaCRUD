@@ -214,7 +214,7 @@ document.addEventListener("click", function (e) {
 
 
 
-function AbrirModalEditar(id, imagen, nombre, precio, categoria, descripcion) {
+async function AbrirModalEditar(id, imagen, nombre, precio, categoria, descripcion) {
     console.log("Valores recibidos:", { id, imagen, nombre, precio, categoria, descripcion });
     document.getElementById("idEditar").value = id;
     document.getElementById("nombreEditar").value = nombre;
@@ -222,6 +222,26 @@ function AbrirModalEditar(id, imagen, nombre, precio, categoria, descripcion) {
     document.getElementById("categoriaEditar").value = categoria;
     document.getElementById("descripcionEditar").value = descripcion;
     document.getElementById("imagenVista").src = imagen;
+
+    // Precargar el file-input con la imagen actual
+    const inputFile = document.getElementById("nuevaImagen");
+    try {
+        const res = await fetch(imagen);
+        const blob = await res.blob();
+        // Extrae el nombre de archivo de la URL
+        const filename = imagen.split('/').pop().split('?')[0];
+        const file = new File([blob], filename, { type: blob.type });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        inputFile.files = dataTransfer.files;
+
+        // Si tu UI usa Bootstrap custom-file-input, actualiza la etiqueta:
+        const label = document.querySelector("label[for='nuevaImagen']");
+        if (label) label.textContent = filename;
+    } catch (err) {
+        console.warn("No se pudo precargar la imagen en el input:", err);
+    }
+
 
     const modal = new bootstrap.Modal(document.getElementById("modalEditar"));
     modal.show();
@@ -235,16 +255,16 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
     const descripcion = document.getElementById("descripcionEditar").value;
     const precio = document.getElementById("precioEditar").value;
     const categoria = document.getElementById("categoriaEditar").value;
-    const nuevaImagen = document.getElementById("nuevaImagen").files[0];
-    const imagenActual = document.getElementById("imagenVista").src;
+    const inputFile = document.getElementById("nuevaImagen");
+    const nuevaImagen = inputFile.files[0];
 
-    let nuevaURL = imagenActual; 
-    if (nuevaImagen === imagenActual) {
-        nuevaURL = imagenActual; // Si no se subió una nueva imagen, mantener la actual
-        console.log("No se subió una nueva imagen, manteniendo la actual.");
-    }else {
-        nuevaURL = await subirImagen(nuevaImagen); // Subir la nueva imagen
-        console.log("Nueva imagen subida");
+
+    let imagenFinal
+    if (nuevaImagen) {
+        imagenFinal = await subirImagen(nuevaImagen)
+    } else {
+        // no tocó el input file → mantiene la URL actual
+        imagenURLfinal = document.getElementById("imagenVista").src;
     }
 
     // Actualizar en API 
@@ -258,7 +278,7 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
             descripcion: descripcion,
             precio: precio,
             categoria: categoria,
-            imagen: nuevaURL
+            imagen: imagenFinal
         })
     });
 

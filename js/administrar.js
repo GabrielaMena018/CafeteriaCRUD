@@ -16,7 +16,7 @@ function CrearTablaProductos(datos) {
 
     let tabla = `
     <thead class="table-light">
-      <tr>
+        <tr>
         <th>ID</th>
         <th>Nombre</th>
         <th>Descripción</th>
@@ -24,26 +24,26 @@ function CrearTablaProductos(datos) {
         <th>Categoría</th>
         <th>Producto</th>
         <th>Opciones</th>
-      </tr>
+        </tr>
     </thead>
     <tbody class="bg-postres">
-  `;
+    `;
 
     datos.forEach(productos => {
         const categoriaTexto = productos.categoria == 1 ? "Postre" : "Bebida";
 
         tabla += `
-      <tr>
+        <tr>
         <td>${productos.id}</td>
         <td>${productos.nombre}</td>
         <td>${productos.descripcion}</td>
         <td>$${productos.precio}</td>
         <td>${categoriaTexto}</td>
         <td>
-          <img  src="${productos.imagen}" alt="${productos.nombre}" style="max-width: 100px; border-radius: 10px;">
+        <img  src="${productos.imagen}" alt="${productos.nombre}" style="max-width: 100px; border-radius: 10px;">
         </td>
         <td>
-          <button class="btn btn-editar rounded-pill me-2"  data-id="${productos.id}"
+        <button class="btn btn-editar rounded-pill me-2"  data-id="${productos.id}"
             data-imagen="${productos.imagen}"
             data-nombre="${productos.nombre}"
             data-precio="${productos.precio}"
@@ -51,9 +51,9 @@ function CrearTablaProductos(datos) {
             data-descripcion="${productos.descripcion}">
             Editar
         </button>
-          <button class="btn btn-eliminar rounded-pill" onclick="eliminarProducto('${productos.id}')">Eliminar</button>
+        <button class="btn btn-eliminar rounded-pill" onclick="eliminarProducto('${productos.id}')">Eliminar</button>
         </td>
-      </tr>
+    </tr>
     `;
     });
 
@@ -73,13 +73,13 @@ btnAgregar.addEventListener("click", () => {
     modalInstance.show();
 });
 
-
+//Subir imagen 
 async function subirImagen(file) {
-  const fd = new FormData();
-  fd.append('image', file);
-  const res = await fetch(supabaseClient, { method: 'POST', body: fd });
-  const obj = await res.json();
-  return obj.data.url;
+    const fd = new FormData();
+    fd.append('image', file);
+    const res = await fetch(supabaseClient, { method: 'POST', body: fd });
+    const obj = await res.json();
+    return obj.data.url;
 }
 
 
@@ -92,9 +92,9 @@ document.getElementById("productoForm").addEventListener("submit", async functio
     const precio = (document.getElementById("precio").value);
     const categoria = document.getElementById("categoria").value;
     const imagenFile = document.getElementById("imagenInput").files[0];
-    
+
     const imagenURL = await subirImagen(imagenFile);
-    
+
 
     const reader = new FileReader();
     reader.onloadend = async function () {
@@ -197,9 +197,7 @@ async function eliminarProducto(id) {
     }
 }
 
-ObtenerProductos();
 
-// Suponiendo que ya insertaste el innerHTML de la tarjeta
 document.addEventListener("click", function (e) {
     if (e.target.classList.contains("btn-editar")) {
         const btn = e.target;
@@ -240,37 +238,16 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
     const nuevaImagen = document.getElementById("nuevaImagen").files[0];
     const imagenActual = document.getElementById("imagenVista").src;
 
-    let nuevaURL = imagenActual;
-
-    if (nuevaImagen) {
-        try {
-            // 1. Eliminar imagen anterior
-            const nombreArchivoViejo = imagenActual.split('/').pop().split('?')[0]; // obtén el nombre del archivo
-            await supabaseClient.storage.from('imagenes').remove([nombreArchivoViejo]);
-
-            // 2. Subir nueva imagen
-            const nombreUnico = `${Date.now()}-${nuevaImagen.name}`;
-            const { data, error } = await supabaseClient.storage
-                .from('imagenes')
-                .upload(nombreUnico, nuevaImagen);
-
-            if (error) throw error;
-
-            // 3. Obtener URL pública
-            const { data: publicData } = supabaseClient
-                .storage
-                .from('imagenes')
-                .getPublicUrl(nombreUnico);
-
-            nuevaURL = publicData.publicUrl;
-        } catch (err) {
-            console.error("Error al manejar la imagen:", err);
-            alert("Hubo un problema con la imagen");
-            return;
-        }
+    let nuevaURL = imagenActual; 
+    if (nuevaImagen === imagenActual) {
+        nuevaURL = imagenActual; // Si no se subió una nueva imagen, mantener la actual
+        console.log("No se subió una nueva imagen, manteniendo la actual.");
+    }else {
+        nuevaURL = await subirImagen(nuevaImagen); // Subir la nueva imagen
+        console.log("Nueva imagen subida");
     }
 
-    // Actualizar en tu API Retool
+    // Actualizar en API 
     const res = await fetch(`${API_URL}/${id}`, {
         method: "PUT",
         headers: {
@@ -294,4 +271,6 @@ document.getElementById("formEditarProducto").addEventListener("submit", async f
         alert("Error al actualizar producto");
     }
 });
+
+ObtenerProductos();
 

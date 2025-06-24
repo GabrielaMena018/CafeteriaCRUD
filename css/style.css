@@ -97,7 +97,8 @@ h2 {
     color: white;
     font-family: 'Fredoka', sans-serif;
 }
-.btn:hover{
+
+.btn:hover {
     border: solid 1px;
     border-color: #4a2d23;
 }
@@ -162,70 +163,97 @@ footer {
     right: 5%;
 }
 
+.seccion-decoraciones {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .decor {
     position: absolute;
-    width: 250px;
+    width: clamp(100px, 20vw, 200px);
+    height: auto;
 }
 
 .overflow {
     overflow-x: scroll;
 }
-.btn-editar{
+
+.btn-editar {
     background-color: rgb(175, 218, 255);
     color: black;
 }
-.btn-eliminar{
+
+.btn-eliminar {
     background-color: #ff578a;
     color: #FFF0DA;
 }
-.btn-editar:hover{
+
+.btn-editar:hover {
     border: solid 1px;
     border-color: rgb(98, 157, 209);
 }
-.btn-eliminar:hover{
+
+.btn-eliminar:hover {
     border: solid 1px;
-    border-color: #ff578a   ;
+    border-color: #ff578a;
 
 }
-.add-button{
-    bottom: 30px; /* Separacion del boton con el borde inferior*/
-    right: 25px; /*Separación desde la derecha*/
+
+.add-button {
+    bottom: 30px;
+    /* Separacion del boton con el borde inferior*/
+    right: 25px;
+    /*Separación desde la derecha*/
     border-radius: 50%;
-    background-color: #fde3ab; /*Color de fondo*/
+    background-color: #fde3ab;
+    /*Color de fondo*/
     border: none;
     /*Esto hace que el boton sea flotante*/
     position: fixed;
     width: 100px;
     height: 100px;
     display: flex;
-    justify-content: center; /*Alinación horizontal*/
-    align-items: center; /*Alinación vertical*/
-    box-shadow: 0px 4px 10px rgb(0,0,0,0.5);/*Sombreado*/
+    justify-content: center;
+    /*Alinación horizontal*/
+    align-items: center;
+    /*Alinación vertical*/
+    box-shadow: 0px 4px 10px rgb(0, 0, 0, 0.5);
+    /*Sombreado*/
     z-index: 1001;
     transition: transform 0.4s;
 }
-.add-button:hover{
+
+.add-button:hover {
     transform: scale(1.1);
 }
+
 /* Estilo de fondo y bordes personalizados */
 #tablaProductos {
-  background-color: #FFF0DA;
-  border: 2px solid #99847d;
-  border-radius: 20px;
+    background-color: #FFF0DA;
+    border: 2px solid #99847d;
+    border-radius: 20px;
 }
 
 #tablaProductos th,
 #tablaProductos td {
-  border: 1px solid #4A2D23 !important;
-  vertical-align: middle;
-  background-color: #FFF0DA;
-  font-size: 18px;
+    border: 1px solid #4A2D23 !important;
+    vertical-align: middle;
+    background-color: #FFF0DA;
+    font-size: 18px;
 }
 
 #tablaProductos th {
-  background-color: #f5d9b0;
-  color: #4A2D23;
-  font-weight: bold;
-   font-size: 20px;
-   font-weight: bold;
+    background-color: #f5d9b0;
+    color: #4A2D23;
+    font-weight: bold;
+    font-size: 20px;
+    font-weight: bold;
 }
+
+/*Ocultra si tapan el contenido*/
+@media (max-width: 900px) {
+  .decor { display: none; }
+}
+
+
